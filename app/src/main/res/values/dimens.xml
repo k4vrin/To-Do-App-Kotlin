@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="no_data_ts">16sp</dimen>
+    <dimen name="no_data_iv">100dp</dimen>
+    <dimen name="padding">24dp</dimen>
+    <dimen name="AF_height">60dp</dimen>
+    <dimen name="AF_top_margin">8dp</dimen>
+    <dimen name="padding_top">16dp</dimen>
+    <dimen name="spinner_pad">20dp</dimen>
+    <dimen name="stroke_width">1dp</dimen>
+    <dimen name="radius">5dp</dimen>
+</resources>
