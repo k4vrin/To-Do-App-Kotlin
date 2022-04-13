@@ -12,6 +12,11 @@ plugins {
 }
 
 android {
+    kapt {
+        arguments {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
+    }
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
 

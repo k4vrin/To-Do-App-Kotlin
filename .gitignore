@@ -28,6 +28,7 @@ captures/
 .cxx/
 *.apk
 output.json
+schemas/
 
 # IntelliJ
 .idea/
