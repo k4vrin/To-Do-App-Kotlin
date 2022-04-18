@@ -40,6 +40,9 @@ class AddFragment : Fragment() {
         // Set Menu
         setHasOptionsMenu(true)
 
+        // Initialize the spinner color change
+        binding.prioritiesSpinner.onItemSelectedListener = mSharedViewModel.listener
+
         return view
     }
 
@@ -54,17 +57,26 @@ class AddFragment : Fragment() {
         inflater.inflate(R.menu.add_fragment_menu, menu)
     }
 
-    //
+    /**
+     * When CheckMark is selected,
+     * the data will be added to database through [insertDataToDb]
+     *
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_add) insertDataToDb()
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * Insert data to [ToDoDatabase]
+     *
+     */
     private fun insertDataToDb() {
         val mTitle = binding.titleEt.text.toString()
         val mPriority = binding.prioritiesSpinner.selectedItem.toString()
         val mDescription = binding.descriptionEt.text.toString()
 
+        // Validating the data
         val validation = mSharedViewModel.verifyDataFromUser(mTitle, mDescription)
         if (validation) {
             // Insert data to db
@@ -79,6 +91,7 @@ class AddFragment : Fragment() {
             // Navigate Back
             findNavController().navigate(R.id.action_addFragment_to_listFragment)
         } else {
+            // Not successful
             Toast.makeText(requireContext(), "Please fill out all fields", Toast.LENGTH_SHORT).show()
         }
     }
