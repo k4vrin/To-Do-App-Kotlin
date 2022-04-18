@@ -3,15 +3,23 @@ package com.kavrin.to_doapp.fragments.list
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.kavrin.to_doapp.R
-import com.kavrin.to_doapp.databinding.FragmentAddBinding
+import com.kavrin.to_doapp.data.models.ToDoData
+import com.kavrin.to_doapp.data.viewmodel.ToDoViewModel
 import com.kavrin.to_doapp.databinding.FragmentListBinding
 
 
 class ListFragment : Fragment() {
+
+    // Initialize ToDoViewModel
+    private val mToDoViewModel: ToDoViewModel by viewModels()
+
+    // Initialize ListAdapter
+    private val adapter: ListAdapter by lazy { ListAdapter() }
 
     // SetUp ViewBinding
     private var _binding: FragmentListBinding? = null
@@ -28,6 +36,16 @@ class ListFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentListBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        // Initialize RecyclerView
+        val recyclerView = binding.recyclerView
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+
+        // We are gonna notify when there is change in our database and apply it to the recyclerview
+        mToDoViewModel.getAllData.observe(viewLifecycleOwner, Observer { data: List<ToDoData> ->
+            adapter.setData(data)
+        })
 
         // setOnClickListener for Floating Action Button
         binding.floatingActionButton.setOnClickListener {

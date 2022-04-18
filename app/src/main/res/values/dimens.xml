@@ -9,5 +9,8 @@
     <dimen name="padding_top">16dp</dimen>
     <dimen name="spinner_pad">20dp</dimen>
     <dimen name="stroke_width">1dp</dimen>
-    <dimen name="radius">5dp</dimen>
+    <dimen name="custom_input_radius">5dp</dimen>
+    <dimen name="RV_layout_margin">4dp</dimen>
+    <dimen name="item_bg_radius">16dp</dimen>
+    <dimen name="card_view_dimen">16dp</dimen>
 </resources>

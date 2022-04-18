@@ -22,7 +22,7 @@ class ToDoViewModel(application: Application) : AndroidViewModel(application) {
     // Passing userDao to Repository
     private val repository: ToDoRepository = ToDoRepository(toDoDao)
     // Read all data from repository
-    private val getAllData: LiveData<List<ToDoData>> = repository.getAllData
+    val getAllData: LiveData<List<ToDoData>> = repository.getAllData
 
     // Using Coroutine to Insert new user to database
     fun insertData(toDoData: ToDoData) {
