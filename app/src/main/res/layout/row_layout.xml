@@ -17,6 +17,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!-- for perfect circle the card radius should be half of it size -->
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/priority_indicator"
             android:layout_width="@dimen/card_view_dimen"
@@ -24,7 +26,7 @@
             android:layout_marginTop="@dimen/card_view_dimen"
             android:layout_marginEnd="@dimen/card_view_dimen"
             app:cardBackgroundColor="@color/red"
-            app:cardCornerRadius="100dp"
+            app:cardCornerRadius="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
