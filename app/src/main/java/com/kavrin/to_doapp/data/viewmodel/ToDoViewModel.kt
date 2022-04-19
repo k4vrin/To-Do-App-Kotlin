@@ -38,6 +38,13 @@ class ToDoViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    // Using Coroutine to Delete the data from database
+    fun deleteData(toDoData: ToDoData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteData(toDoData)
+        }
+    }
+
 }
 
 /**
