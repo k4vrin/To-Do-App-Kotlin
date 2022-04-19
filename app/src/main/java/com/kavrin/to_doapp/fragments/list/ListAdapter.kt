@@ -1,9 +1,9 @@
 package com.kavrin.to_doapp.fragments.list
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.kavrin.to_doapp.R
 import com.kavrin.to_doapp.data.models.Priority
@@ -48,6 +48,14 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 //        val resources = context!!.resources
         holder.binding.titleTxt.text = item.title
         holder.binding.descriptionTxt.text = item.description
+
+        // Set click listener for each RecyclerView
+        holder.binding.rowBackground.setOnClickListener {
+            // Safe args implementation
+            // Pass the ToDoData of the current RecyclerView to the UpdateFragment
+            val action = ListFragmentDirections.actionListFragmentToUpdateFragment(dataList[position])
+            holder.binding.root.findNavController().navigate(action)
+        }
 
         when (item.priority) {
             Priority.HIGH -> {

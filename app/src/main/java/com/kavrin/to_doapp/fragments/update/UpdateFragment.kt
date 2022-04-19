@@ -3,11 +3,21 @@ package com.kavrin.to_doapp.fragments.update
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.kavrin.to_doapp.R
+import com.kavrin.to_doapp.data.models.Priority
 import com.kavrin.to_doapp.databinding.FragmentListBinding
 import com.kavrin.to_doapp.databinding.FragmentUpdateBinding
+import com.kavrin.to_doapp.fragments.SharedViewModel
 
 class UpdateFragment : Fragment() {
+
+    // Fetching the argument from ListFragment
+    private val args by navArgs<UpdateFragmentArgs>()
+
+    // Initialize SharedViewModel
+    val mSharedViewModel: SharedViewModel by viewModels()
 
     // SetUp ViewBinding
     private var _binding: FragmentUpdateBinding? = null
@@ -25,7 +35,17 @@ class UpdateFragment : Fragment() {
         _binding = FragmentUpdateBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        // Set Menu
         setHasOptionsMenu(true)
+
+        // Set the text of Title to ToDoData object Title that has been passed through safe args
+        binding.currentTitleEt.setText(args.currentItem.title)
+        // Set the Priority of the to-do to ToDoData object Priority that has been passed through safe args
+        binding.currentPrioritiesSpinner.setSelection(parsePriority(args.currentItem.priority))
+        // Set the text of Description to ToDoData object Description that has been passed through safe args
+        binding.currentDescriptionEt.setText(args.currentItem.description)
+        // Change the color of the Spinner Item
+        binding.currentPrioritiesSpinner.onItemSelectedListener = mSharedViewModel.listener
 
         return view
     }
@@ -38,5 +58,18 @@ class UpdateFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.update_fragment_menu, menu)
+    }
+
+    /**
+     * Parse priority
+     *
+     * Parse the Priority object to the corresponding number
+     */
+    private fun parsePriority(priority: Priority): Int {
+        return when(priority) {
+            Priority.HIGH -> 0
+            Priority.MEDIUM -> 1
+            Priority.LOW -> 2
+        }
     }
 }

@@ -52,11 +52,6 @@ class ListFragment : Fragment() {
             findNavController().navigate(R.id.action_listFragment_to_addFragment)
         }
 
-        // Temporary setOnClickListener For ConstraintLayout To Navigate To updateFragment
-        binding.listLayout.setOnClickListener {
-            findNavController().navigate(R.id.action_listFragment_to_updateFragment)
-        }
-
         // Set Menu
         setHasOptionsMenu(true)
 
