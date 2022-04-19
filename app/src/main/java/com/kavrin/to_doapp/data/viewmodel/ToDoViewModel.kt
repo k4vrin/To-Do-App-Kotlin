@@ -45,6 +45,13 @@ class ToDoViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    // Using Coroutine to Delete All the data from database
+    fun deleteAllData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAllData()
+        }
+    }
+
 }
 
 /**

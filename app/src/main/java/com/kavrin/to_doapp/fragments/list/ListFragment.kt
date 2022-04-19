@@ -1,7 +1,9 @@
 package com.kavrin.to_doapp.fragments.list
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -56,6 +58,37 @@ class ListFragment : Fragment() {
         setHasOptionsMenu(true)
 
         return view
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.menu_delete_all -> confirmRemoval()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    /**
+     * Confirm removal
+     *
+     * Show AlertDialog to confirm All item removal
+     *
+     */
+    private fun confirmRemoval() {
+        // Pop Up a dialog asking the user that he is sure or not
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton("Yes") { _, _ ->
+            // Delete the data from db
+            mToDoViewModel.deleteAllData()
+            Toast.makeText(
+                requireContext(),
+                "Successfully Removed Everything!",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        builder.setNegativeButton("No") {_, _ -> }
+        builder.setTitle("Delete everything?")
+        builder.setMessage("Are you sure you want to remove everything?")
+        builder.create().show()
     }
 
     // SetUp ViewBinding
