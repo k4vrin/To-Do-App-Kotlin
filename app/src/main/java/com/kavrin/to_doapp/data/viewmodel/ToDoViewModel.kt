@@ -24,10 +24,17 @@ class ToDoViewModel(application: Application) : AndroidViewModel(application) {
     // Read all data from repository
     val getAllData: LiveData<List<ToDoData>> = repository.getAllData
 
-    // Using Coroutine to Insert new user to database
+    // Using Coroutine to Insert new data to database
     fun insertData(toDoData: ToDoData) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertData(toDoData)
+        }
+    }
+
+    // Using Coroutine to Update the data on database
+    fun updateData(toDoData: ToDoData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateData(toDoData)
         }
     }
 

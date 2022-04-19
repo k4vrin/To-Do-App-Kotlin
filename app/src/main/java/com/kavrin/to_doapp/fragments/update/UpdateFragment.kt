@@ -2,12 +2,14 @@ package com.kavrin.to_doapp.fragments.update
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.kavrin.to_doapp.R
-import com.kavrin.to_doapp.data.models.Priority
-import com.kavrin.to_doapp.databinding.FragmentListBinding
+import com.kavrin.to_doapp.data.models.ToDoData
+import com.kavrin.to_doapp.data.viewmodel.ToDoViewModel
 import com.kavrin.to_doapp.databinding.FragmentUpdateBinding
 import com.kavrin.to_doapp.fragments.SharedViewModel
 
@@ -17,7 +19,8 @@ class UpdateFragment : Fragment() {
     private val args by navArgs<UpdateFragmentArgs>()
 
     // Initialize SharedViewModel
-    val mSharedViewModel: SharedViewModel by viewModels()
+    private val mSharedViewModel: SharedViewModel by viewModels()
+    private val mToDoViewModel: ToDoViewModel by viewModels()
 
     // SetUp ViewBinding
     private var _binding: FragmentUpdateBinding? = null
@@ -41,7 +44,7 @@ class UpdateFragment : Fragment() {
         // Set the text of Title to ToDoData object Title that has been passed through safe args
         binding.currentTitleEt.setText(args.currentItem.title)
         // Set the Priority of the to-do to ToDoData object Priority that has been passed through safe args
-        binding.currentPrioritiesSpinner.setSelection(parsePriority(args.currentItem.priority))
+        binding.currentPrioritiesSpinner.setSelection(mSharedViewModel.parsePriorityToInt(args.currentItem.priority))
         // Set the text of Description to ToDoData object Description that has been passed through safe args
         binding.currentDescriptionEt.setText(args.currentItem.description)
         // Change the color of the Spinner Item
@@ -61,15 +64,43 @@ class UpdateFragment : Fragment() {
     }
 
     /**
-     * Parse priority
+     * On options item selected
      *
-     * Parse the Priority object to the corresponding number
+     * Selecting save icon
      */
-    private fun parsePriority(priority: Priority): Int {
-        return when(priority) {
-            Priority.HIGH -> 0
-            Priority.MEDIUM -> 1
-            Priority.LOW -> 2
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_save) updateItem()
+        return super.onOptionsItemSelected(item)
+    }
+
+    /**
+     * Update item
+     *
+     * Update item on db
+     */
+    private fun updateItem() {
+        val title = binding.currentTitleEt.text.toString()
+        val description = binding.currentDescriptionEt.text.toString()
+        val getPriority = binding.currentPrioritiesSpinner.selectedItem.toString()
+
+        val validation = mSharedViewModel.verifyDataFromUser(title, description)
+
+        // Validating title and description
+        if (validation) {
+            val updatedItem = ToDoData(
+                args.currentItem.id,
+                title,
+                mSharedViewModel.parsePriority(getPriority),
+                description
+            )
+            // Update the data on db
+            mToDoViewModel.updateData(updatedItem)
+            Toast.makeText(requireContext(), "Successfully updated!", Toast.LENGTH_SHORT).show()
+            // Navigate back
+            findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+        } else {
+            // Not successful
+            Toast.makeText(requireContext(), "Please fill out all fields", Toast.LENGTH_SHORT).show()
         }
     }
 }

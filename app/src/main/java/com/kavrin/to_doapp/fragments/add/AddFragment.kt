@@ -1,14 +1,12 @@
 package com.kavrin.to_doapp.fragments.add
 
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.kavrin.to_doapp.R
-import com.kavrin.to_doapp.data.models.Priority
 import com.kavrin.to_doapp.data.models.ToDoData
 import com.kavrin.to_doapp.data.viewmodel.ToDoViewModel
 import com.kavrin.to_doapp.databinding.FragmentAddBinding
@@ -86,6 +84,7 @@ class AddFragment : Fragment() {
                 mSharedViewModel.parsePriority(mPriority),
                 mDescription
             )
+            // Add new data to db
             mToDoViewModel.insertData(newData)
             Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
             // Navigate Back

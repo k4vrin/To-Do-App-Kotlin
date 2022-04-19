@@ -1,10 +1,7 @@
 package com.kavrin.to_doapp.data
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.kavrin.to_doapp.data.models.ToDoData
 
 @Dao
@@ -16,6 +13,8 @@ interface ToDoDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE) // When new item comes into our database and it's duplicated, we ignore it
     suspend fun insertData(toDoData: ToDoData) // suspend means this function only should be used inside coroutine or another suspend function
 
+    @Update
+    suspend fun updateData(toDoData: ToDoData)
 }
 
 /**
