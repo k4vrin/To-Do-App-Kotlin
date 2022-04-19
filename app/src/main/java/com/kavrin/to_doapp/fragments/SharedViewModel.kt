@@ -7,10 +7,17 @@ import android.widget.AdapterView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.kavrin.to_doapp.R
 import com.kavrin.to_doapp.data.models.Priority
+import com.kavrin.to_doapp.data.models.ToDoData
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val _emptyDatabase: MutableLiveData<Boolean> = MutableLiveData(true)
+    val emptyDatabase: LiveData<Boolean>
+    get() = _emptyDatabase
 
     // Create listener for Spinner color change
     val listener: AdapterView.OnItemSelectedListener = object :
@@ -42,6 +49,12 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     }
 
+    /**
+     * Check if database is empty
+     */
+    fun checkIfDatabaseEmpty(ToDoData: List<ToDoData>) {
+        _emptyDatabase.value = ToDoData.isEmpty()
+    }
 
     /**
      * Verify data from user

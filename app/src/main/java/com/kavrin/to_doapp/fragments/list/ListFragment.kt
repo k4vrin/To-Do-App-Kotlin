@@ -13,12 +13,14 @@ import com.kavrin.to_doapp.R
 import com.kavrin.to_doapp.data.models.ToDoData
 import com.kavrin.to_doapp.data.viewmodel.ToDoViewModel
 import com.kavrin.to_doapp.databinding.FragmentListBinding
+import com.kavrin.to_doapp.fragments.SharedViewModel
 
 
 class ListFragment : Fragment() {
 
     // Initialize ToDoViewModel
     private val mToDoViewModel: ToDoViewModel by viewModels()
+    private val mSharedViewModel: SharedViewModel by viewModels()
 
     // Initialize ListAdapter
     private val adapter: ListAdapter by lazy { ListAdapter() }
@@ -46,7 +48,15 @@ class ListFragment : Fragment() {
 
         // We are gonna notify when there is change in our database and apply it to the recyclerview
         mToDoViewModel.getAllData.observe(viewLifecycleOwner, Observer { data: List<ToDoData> ->
+            // Check if database is empty
+            mSharedViewModel.checkIfDatabaseEmpty(data)
             adapter.setData(data)
+        })
+
+        // Observe the db and if it is empty show the no data TextView and ImageView
+        mSharedViewModel.emptyDatabase.observe(viewLifecycleOwner, Observer { emptyDatabase: Boolean ->
+            // Show the no data TextView and ImageView
+            showEmptyDatabaseView(emptyDatabase)
         })
 
         // setOnClickListener for Floating Action Button
@@ -89,6 +99,21 @@ class ListFragment : Fragment() {
         builder.setTitle("Delete everything?")
         builder.setMessage("Are you sure you want to remove everything?")
         builder.create().show()
+    }
+
+    /**
+     * Show empty database view
+     *
+     * Check the db to set the visibility of ImageView and TextView
+     */
+    private fun showEmptyDatabaseView(emptyDatabase: Boolean) {
+        if (emptyDatabase) {
+            binding.noDataIv.visibility = View.VISIBLE
+            binding.noDataTv.visibility = View.VISIBLE
+        } else {
+            binding.noDataIv.visibility = View.INVISIBLE
+            binding.noDataTv.visibility = View.INVISIBLE
+        }
     }
 
     // SetUp ViewBinding
