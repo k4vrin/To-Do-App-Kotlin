@@ -2,6 +2,7 @@ package com.kavrin.to_doapp.fragments.list.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kavrin.to_doapp.data.models.ToDoData
 import com.kavrin.to_doapp.databinding.RowLayoutBinding
@@ -69,9 +70,15 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
      * It will be used from ListFragment when we are observing LiveData object
      */
     fun setData(toDoData: List<ToDoData>) {
+        // Setup DiffUtil
+        val toDoDiffUtil = ToDoDiffUtil(dataList, toDoData)
+        val toDoDiffUtilResult = DiffUtil.calculateDiff(toDoDiffUtil)
+
         this.dataList = toDoData
-        // Notify RecyclerView about Changes
-        notifyDataSetChanged()
+
+        // Notify RecyclerView about Changes.
+        // Using DiffUtil instead of notifyDataSetChanged()
+        toDoDiffUtilResult.dispatchUpdatesTo(this)
     }
 }
 
