@@ -1,4 +1,4 @@
-package com.kavrin.to_doapp.fragments.list
+package com.kavrin.to_doapp.fragments.list.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import com.kavrin.to_doapp.databinding.RowLayoutBinding
 class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
     // The Adapter needs to know which data it should set to which item
-    private var dataList = emptyList<ToDoData>()
+    var dataList = emptyList<ToDoData>()
 
     /**
      * My view holder
