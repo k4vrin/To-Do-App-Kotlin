@@ -16,6 +16,7 @@ import com.kavrin.to_doapp.data.viewmodel.ToDoViewModel
 import com.kavrin.to_doapp.databinding.FragmentListBinding
 import com.kavrin.to_doapp.fragments.SharedViewModel
 import com.kavrin.to_doapp.fragments.list.adapter.ListAdapter
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 
 class ListFragment : Fragment() {
@@ -66,6 +67,11 @@ class ListFragment : Fragment() {
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+
+        // Setup Animation
+        recyclerView.itemAnimator = SlideInUpAnimator().apply {
+            addDuration = 300
+        }
 
         // Swipe
         swipeToDelete(recyclerView)
