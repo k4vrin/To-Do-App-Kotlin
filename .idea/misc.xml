@@ -5,7 +5,8 @@
       <map>
         <entry key="..\:/Projects/Stevdza-San/ToDoApp/app/src/main/res/layout/activity_main.xml" value="0.16394927536231885" />
         <entry key="..\:/Projects/Stevdza-San/ToDoApp/app/src/main/res/layout/fragment_list.xml" value="0.11296859169199595" />
-        <entry key="..\:/Projects/Stevdza-San/ToDoApp/app/src/main/res/layout/row_layout.xml" value="0.664876476906552" />
+        <entry key="..\:/Projects/Stevdza-San/ToDoApp/app/src/main/res/layout/fragment_update.xml" value="0.18704710144927536" />
+        <entry key="..\:/Projects/Stevdza-San/ToDoApp/app/src/main/res/layout/row_layout.xml" value="0.6453125" />
         <entry key="..\:/Projects/Stevdza-San/ToDoApp/app/src/main/res/menu/list_fragment_menu.xml" value="0.23229166666666667" />
         <entry key="..\:/Projects/Stevdza-San/ToDoApp/app/src/main/res/menu/update_fragment_menu.xml" value="0.14074074074074075" />
       </map>

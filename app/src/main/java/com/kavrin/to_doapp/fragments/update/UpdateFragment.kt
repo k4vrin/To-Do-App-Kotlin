@@ -34,27 +34,23 @@ class UpdateFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentUpdateBinding.inflate(inflater, container, false)
-        val view = binding.root
+
+        // Connect binding.args to this fragment args
+        binding.args = args
 
         // Set Menu
         setHasOptionsMenu(true)
 
-        // Set the text of Title to ToDoData object Title that has been passed through safe args
-        binding.currentTitleEt.setText(args.currentItem.title)
-        // Set the Priority of the to-do to ToDoData object Priority that has been passed through safe args
-        binding.currentPrioritiesSpinner.setSelection(mSharedViewModel.parsePriorityToInt(args.currentItem.priority))
-        // Set the text of Description to ToDoData object Description that has been passed through safe args
-        binding.currentDescriptionEt.setText(args.currentItem.description)
         // Change the color of the Spinner Item
         binding.currentPrioritiesSpinner.onItemSelectedListener = mSharedViewModel.listener
 
-        return view
+        return binding.root
     }
 
-    // SetUp ViewBinding
+    // set binding to null to avoid memory leaks
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

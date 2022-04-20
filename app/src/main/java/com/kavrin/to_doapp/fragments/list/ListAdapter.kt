@@ -2,18 +2,14 @@ package com.kavrin.to_doapp.fragments.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.kavrin.to_doapp.R
-import com.kavrin.to_doapp.data.models.Priority
 import com.kavrin.to_doapp.data.models.ToDoData
 import com.kavrin.to_doapp.databinding.RowLayoutBinding
 
 class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
     // The Adapter needs to know which data it should set to which item
-    var dataList = emptyList<ToDoData>()
+    private var dataList = emptyList<ToDoData>()
 
     /**
      * My view holder
@@ -21,7 +17,25 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
      * A ViewHolder will be used to hold the views of the RecyclerView; [row_layout.xml]
      *
      */
-    class MyViewHolder(val binding: RowLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(private val binding: RowLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(toDoData: ToDoData) {
+            binding.toDoData = toDoData
+            binding.executePendingBindings()
+        }
+
+        companion object {
+            /**
+             * From
+             *
+             * Inflate rowLayout
+             */
+            fun from(parent: ViewGroup): MyViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = RowLayoutBinding.inflate(layoutInflater, parent, false)
+                return MyViewHolder(binding)
+            }
+        }
 
     }
 
@@ -31,10 +45,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
      * This function will be called when RecyclerView needs a new ViewHolder
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-//        val view = LayoutInflater.from(parent.context).inflate(R.layout.row_layout, parent, false)
-//        return MyViewHolder(view)
-        val view = RowLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MyViewHolder(view)
+        return MyViewHolder.from(parent)
     }
 
     /**
@@ -44,54 +55,8 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
      * It takes the data from the list set it to the corresponding view
      */
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val item = dataList[position]
-//        val resources = context!!.resources
-        holder.binding.titleTxt.text = item.title
-        holder.binding.descriptionTxt.text = item.description
-
-        // Set click listener for each RecyclerView
-        holder.binding.rowBackground.setOnClickListener {
-            // Safe args implementation
-            // Pass the ToDoData of the current RecyclerView to the UpdateFragment
-            val action = ListFragmentDirections.actionListFragmentToUpdateFragment(dataList[position])
-            holder.binding.root.findNavController().navigate(action)
-        }
-
-        when (item.priority) {
-            Priority.HIGH -> {
-                holder
-                    .binding
-                    .priorityIndicator
-                    .setCardBackgroundColor(
-                        ContextCompat.getColor(
-                            holder.binding.root.context,
-                            R.color.red
-                        )
-                    )
-            }
-            Priority.MEDIUM -> {
-                holder
-                    .binding
-                    .priorityIndicator
-                    .setCardBackgroundColor(
-                        ContextCompat.getColor(
-                            holder.binding.root.context,
-                            R.color.yellow
-                        )
-                    )
-            }
-            Priority.LOW -> {
-                holder
-                    .binding
-                    .priorityIndicator
-                    .setCardBackgroundColor(
-                        ContextCompat.getColor(
-                            holder.binding.root.context,
-                            R.color.green
-                        )
-                    )
-            }
-        }
+        // Connect binding toDoData to ListAdapter toDoData
+        holder.bind(dataList[position])
     }
 
     override fun getItemCount(): Int {

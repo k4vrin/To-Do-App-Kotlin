@@ -15,9 +15,19 @@ import com.kavrin.to_doapp.data.models.ToDoData
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
+    /* ============================= List Fragment ============================= */
     private val _emptyDatabase: MutableLiveData<Boolean> = MutableLiveData(true)
     val emptyDatabase: LiveData<Boolean>
     get() = _emptyDatabase
+
+    /**
+     * Check if database is empty
+     */
+    fun checkIfDatabaseEmpty(ToDoData: List<ToDoData>) {
+        _emptyDatabase.value = ToDoData.isEmpty()
+    }
+
+    /* ============================= Add/Update Fragment ============================= */
 
     // Create listener for Spinner color change
     val listener: AdapterView.OnItemSelectedListener = object :
@@ -50,13 +60,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     /**
-     * Check if database is empty
-     */
-    fun checkIfDatabaseEmpty(ToDoData: List<ToDoData>) {
-        _emptyDatabase.value = ToDoData.isEmpty()
-    }
-
-    /**
      * Verify data from user
      *
      * If title [or] description were empty it return false.
@@ -80,19 +83,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             "Medium Priority" -> Priority.MEDIUM
             "Low Priority" -> Priority.LOW
             else -> Priority.LOW
-        }
-    }
-
-    /**
-     * Parse priority
-     *
-     * Parse the Priority object to the corresponding number
-     */
-    fun parsePriorityToInt(priority: Priority): Int {
-        return when(priority) {
-            Priority.HIGH -> 0
-            Priority.MEDIUM -> 1
-            Priority.LOW -> 2
         }
     }
 

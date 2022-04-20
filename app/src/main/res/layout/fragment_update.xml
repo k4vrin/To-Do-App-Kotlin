@@ -1,62 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/padding"
-    tools:context=".fragments.update.UpdateFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <EditText
-        android:id="@+id/current_title_et"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/AF_height"
-        android:autofillHints=""
-        android:background="@drawable/custom_input"
-        android:ems="10"
-        android:hint="@string/title"
-        android:inputType="textPersonName"
-        android:paddingStart="@dimen/padding"
-        android:paddingEnd="@dimen/padding"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="TextContrastCheck" />
+    <data>
 
-    <Spinner
-        android:id="@+id/current_priorities_spinner"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/AF_height"
-        android:layout_marginTop="@dimen/AF_top_margin"
-        android:background="@drawable/custom_input"
-        android:entries="@array/priorities"
-        android:paddingStart="@dimen/spinner_pad"
-        android:paddingEnd="@dimen/spinner_pad"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/current_title_et" />
+        <variable
+            name="args"
+            type="com.kavrin.to_doapp.fragments.update.UpdateFragmentArgs" />
+        
+    </data>
 
-    <EditText
-        android:id="@+id/current_description_et"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/AF_top_margin"
-        android:autofillHints=""
-        android:background="@drawable/custom_input"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="@string/description"
-        android:inputType="textMultiLine"
-        android:paddingStart="@dimen/padding"
-        android:paddingTop="@dimen/padding_top"
-        android:paddingEnd="@dimen/padding"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/current_priorities_spinner"
-        tools:ignore="TextContrastCheck" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding"
+        tools:context=".fragments.update.UpdateFragment">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Set the text of Title to ToDoData object Title
+         that has been passed through safe args -->
+
+        <EditText
+            android:id="@+id/current_title_et"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/AF_height"
+            android:autofillHints=""
+            android:background="@drawable/custom_input"
+            android:ems="10"
+            android:hint="@string/title"
+            android:inputType="textPersonName"
+            android:paddingStart="@dimen/padding"
+            android:paddingEnd="@dimen/padding"
+            android:text="@{args.currentItem.title}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextContrastCheck" />
+
+        <!--Set the Priority of the to-do to ToDoData object Priority that
+        has been passed through safe args -->
+
+        <Spinner
+            android:id="@+id/current_priorities_spinner"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/AF_height"
+            android:layout_marginTop="@dimen/AF_top_margin"
+            android:background="@drawable/custom_input"
+            android:entries="@array/priorities"
+            android:paddingStart="@dimen/spinner_pad"
+            android:paddingEnd="@dimen/spinner_pad"
+            android:parsePriorityToInt="@{args.currentItem.priority}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/current_title_et" />
+
+        <!-- Set the text of Description to ToDoData object Description that
+         has been passed through safe args -->
+
+        <EditText
+            android:id="@+id/current_description_et"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/AF_top_margin"
+            android:autofillHints=""
+            android:background="@drawable/custom_input"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="@string/description"
+            android:inputType="textMultiLine"
+            android:paddingStart="@dimen/padding"
+            android:paddingTop="@dimen/padding_top"
+            android:paddingEnd="@dimen/padding"
+            android:text="@{args.currentItem.description}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/current_priorities_spinner"
+            tools:ignore="TextContrastCheck" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

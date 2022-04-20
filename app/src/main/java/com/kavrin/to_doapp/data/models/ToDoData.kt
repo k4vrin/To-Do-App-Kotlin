@@ -20,7 +20,7 @@ data class ToDoData(
 /**
  * Room is part of android architecture components and it provides an abstraction layer
  * or SqlLite to allow fluent database access
- * 1.[Entity]: Represents a table within the database. Room creates a table
+ * 1.Entity: Represents a table within the database. Room creates a table
  * for each class that has @Entity annotation, the fields in the class
  * correspond to columns in the table. Therefore, the entity classes
  * tend to be small model classes that don't contain any logic.

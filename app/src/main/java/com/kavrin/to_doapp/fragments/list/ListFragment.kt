@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kavrin.to_doapp.R
 import com.kavrin.to_doapp.data.models.ToDoData
@@ -36,38 +35,34 @@ class ListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
+        // Inflate the layout for this fragment via DataBinding
         _binding = FragmentListBinding.inflate(inflater, container, false)
-        val view = binding.root
+        // Connect layout mSharedViewModel to thi Fragment mSharedViewModel
+        // Instead of of observing emptyDatabase from Fragment we are gonna observe it from layout
+        binding.lifecycleOwner = this
+        binding.mSharedViewModel = mSharedViewModel
 
         // Initialize RecyclerView
-        val recyclerView = binding.recyclerView
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        setUpRecyclerView()
 
         // We are gonna notify when there is change in our database and apply it to the recyclerview
-        mToDoViewModel.getAllData.observe(viewLifecycleOwner, Observer { data: List<ToDoData> ->
+        mToDoViewModel.getAllData.observe(viewLifecycleOwner) { data: List<ToDoData> ->
             // Check if database is empty
             mSharedViewModel.checkIfDatabaseEmpty(data)
             adapter.setData(data)
-        })
-
-        // Observe the db and if it is empty show the no data TextView and ImageView
-        mSharedViewModel.emptyDatabase.observe(viewLifecycleOwner, Observer { emptyDatabase: Boolean ->
-            // Show the no data TextView and ImageView
-            showEmptyDatabaseView(emptyDatabase)
-        })
-
-        // setOnClickListener for Floating Action Button
-        binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_listFragment_to_addFragment)
         }
 
         // Set Menu
         setHasOptionsMenu(true)
 
-        return view
+        return binding.root
+    }
+
+    private fun setUpRecyclerView() {
+        val recyclerView = binding.recyclerView
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -101,22 +96,7 @@ class ListFragment : Fragment() {
         builder.create().show()
     }
 
-    /**
-     * Show empty database view
-     *
-     * Check the db to set the visibility of ImageView and TextView
-     */
-    private fun showEmptyDatabaseView(emptyDatabase: Boolean) {
-        if (emptyDatabase) {
-            binding.noDataIv.visibility = View.VISIBLE
-            binding.noDataTv.visibility = View.VISIBLE
-        } else {
-            binding.noDataIv.visibility = View.INVISIBLE
-            binding.noDataTv.visibility = View.INVISIBLE
-        }
-    }
-
-    // SetUp ViewBinding
+    // set binding to null to avoid memory leaks
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
