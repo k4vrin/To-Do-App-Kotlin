@@ -3,6 +3,7 @@ package com.kavrin.to_doapp.fragments.list
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,7 +20,7 @@ import com.kavrin.to_doapp.fragments.list.adapter.ListAdapter
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     // Initialize ToDoViewModel
     private val mToDoViewModel: ToDoViewModel by viewModels()
@@ -147,5 +148,50 @@ class ListFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.list_fragment_menu, menu)
+
+        // Setup search
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
+    }
+
+    /**
+     * Called when the user submits the query. This could be due to a key press on the
+     * keyboard or due to pressing a submit button.
+     * The listener can override the standard behavior by returning true
+     * to indicate that it has handled the submit request. Otherwise return false to
+     * let the SearchView handle the submission by launching any associated intent.
+     *
+     * @param query the query text that is to be submitted
+     *
+     * @return true if the query has been handled by the listener, false to let the
+     * SearchView perform the default action.
+     */
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null) searchThroughDatabase(query)
+        return true
+    }
+
+    /**
+     * Called when the query text is changed by the user.
+     *
+     * @param newText the new content of the query text field.
+     *
+     * @return false if the SearchView should perform the default action of showing any
+     * suggestions if available, true if the action was handled by the listener.
+     */
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText != null) searchThroughDatabase(newText)
+        return true
+    }
+
+    private fun searchThroughDatabase(query: String) {
+        val searchQuery = "%$query%"
+        mToDoViewModel.searchDatabase(searchQuery).observe(this) { list ->
+            list?.let {
+                adapter.setData(it)
+            }
+        }
     }
 }
