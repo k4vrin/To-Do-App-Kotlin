@@ -112,7 +112,11 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
+            // When delete all selected
             R.id.menu_delete_all -> confirmRemoval()
+            // When Sort Selected
+            R.id.menu_priority_high -> sort("high")
+            R.id.menu_priority_low -> sort("low")
         }
         return super.onOptionsItemSelected(item)
     }
@@ -186,11 +190,39 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         return true
     }
 
+    /**
+     * Search through database
+     *
+     * Search and update the UI with new list
+     */
     private fun searchThroughDatabase(query: String) {
         val searchQuery = "%$query%"
         mToDoViewModel.searchDatabase(searchQuery).observe(this) { list ->
             list?.let {
                 adapter.setData(it)
+            }
+        }
+    }
+
+    /**
+     * Sort
+     * Observe the data and call the adapter to update the data
+     */
+    private fun sort(priority: String) {
+        when (priority) {
+            "high" -> {
+                mToDoViewModel
+                    .sortByHighPriority
+                    .observe(this) {
+                        adapter.setData(it)
+                    }
+            }
+            "low" -> {
+                mToDoViewModel
+                    .sortByLowPriority
+                    .observe(this) {
+                        adapter.setData(it)
+                    }
             }
         }
     }

@@ -21,8 +21,15 @@ class ToDoViewModel(application: Application) : AndroidViewModel(application) {
     private val toDoDao = ToDoDatabase.getDatabase(application).toDoDao()
     // Passing userDao to Repository
     private val repository: ToDoRepository = ToDoRepository(toDoDao)
+
     // Read all data from repository
     val getAllData: LiveData<List<ToDoData>> = repository.getAllData
+
+    // Sorted by High Priority
+    val sortByHighPriority: LiveData<List<ToDoData>> = repository.sortByHighPriority
+
+    // Sorted by Low Priority
+    val sortByLowPriority: LiveData<List<ToDoData>> = repository.sortByLowPriority
 
     // Using Coroutine to Insert new data to database
     fun insertData(toDoData: ToDoData) {

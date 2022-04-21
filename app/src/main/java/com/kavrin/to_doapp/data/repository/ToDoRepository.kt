@@ -9,6 +9,10 @@ class ToDoRepository(private val toDoDao: ToDoDao) {
 
     // Get allData from DAO
     val getAllData: LiveData<List<ToDoData>> = toDoDao.getAllData()
+    // Sorted by High Priority
+    val sortByHighPriority: LiveData<List<ToDoData>> = toDoDao.sortByHighPriority()
+    // Sorted by Low Priority
+    val sortByLowPriority: LiveData<List<ToDoData>> = toDoDao.sortByLowPriority()
 
     // Insert data to database through DAO
     suspend fun insertData(toDoData: ToDoData) {

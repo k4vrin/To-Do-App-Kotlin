@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/Stevdza-San/ToDoApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2385" />
         <entry key="..\:/Projects/Stevdza-San/ToDoApp/app/src/main/res/layout/activity_main.xml" value="0.16394927536231885" />
         <entry key="..\:/Projects/Stevdza-San/ToDoApp/app/src/main/res/layout/fragment_list.xml" value="0.11296859169199595" />
         <entry key="..\:/Projects/Stevdza-San/ToDoApp/app/src/main/res/layout/fragment_update.xml" value="0.18704710144927536" />
