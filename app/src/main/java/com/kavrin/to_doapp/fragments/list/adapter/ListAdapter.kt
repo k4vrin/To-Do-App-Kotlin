@@ -20,6 +20,11 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
      */
     class MyViewHolder(private val binding: RowLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
 
+        /**
+         * Bind
+         *
+         * Connect binding toDoData to ListAdapter toDoData
+         */
         fun bind(toDoData: ToDoData) {
             binding.toDoData = toDoData
             binding.executePendingBindings()

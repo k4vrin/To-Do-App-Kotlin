@@ -7,9 +7,7 @@ import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.google.android.material.snackbar.Snackbar
 import com.kavrin.to_doapp.R
 import com.kavrin.to_doapp.data.models.ToDoData
@@ -67,7 +65,14 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun setUpRecyclerView() {
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        //Linear Layout
+//        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+
+        // Grid Layout
+//        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+
+        // StaggeredGrid Layout
+        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
         // Setup Animation
         recyclerView.itemAnimator = SlideInUpAnimator().apply {
