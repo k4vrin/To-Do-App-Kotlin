@@ -81,7 +81,6 @@ class ListFragment : Fragment() {
                 val deletedItem = adapter.dataList[viewHolder.adapterPosition]
                 // Delete Item
                 mToDoViewModel.deleteData(deletedItem)
-                adapter.notifyItemRemoved(viewHolder.adapterPosition)
                 // Restore deleted data
                 restoreDeletedData(viewHolder.itemView, deletedItem, viewHolder.adapterPosition)
             }
@@ -98,7 +97,6 @@ class ListFragment : Fragment() {
         )
         snackBar.setAction("Undo") {
             mToDoViewModel.insertData(deletedItem)
-            adapter.notifyItemChanged(position)
         }
         snackBar.show()
     }
