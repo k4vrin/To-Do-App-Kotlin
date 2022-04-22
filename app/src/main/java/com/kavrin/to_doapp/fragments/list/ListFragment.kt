@@ -16,6 +16,7 @@ import com.kavrin.to_doapp.databinding.FragmentListBinding
 import com.kavrin.to_doapp.fragments.SharedViewModel
 import com.kavrin.to_doapp.fragments.list.adapter.ListAdapter
 import com.kavrin.to_doapp.utils.hideKeyboard
+import com.kavrin.to_doapp.utils.observeOnce
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 
@@ -206,7 +207,8 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
      */
     private fun searchThroughDatabase(query: String) {
         val searchQuery = "%$query%"
-        mToDoViewModel.searchDatabase(searchQuery).observe(this) { list ->
+        // observeOnce for search undo bug
+        mToDoViewModel.searchDatabase(searchQuery).observeOnce(viewLifecycleOwner) { list ->
             list?.let {
                 adapter.setData(it)
             }
@@ -222,14 +224,14 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
             "high" -> {
                 mToDoViewModel
                     .sortByHighPriority
-                    .observe(this) {
+                    .observe(viewLifecycleOwner) {
                         adapter.setData(it)
                     }
             }
             "low" -> {
                 mToDoViewModel
                     .sortByLowPriority
-                    .observe(this) {
+                    .observe(viewLifecycleOwner) {
                         adapter.setData(it)
                     }
             }

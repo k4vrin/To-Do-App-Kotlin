@@ -3,6 +3,9 @@ package com.kavrin.to_doapp.utils
 import android.app.Activity
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 
 /**
  * Hide keyboard
@@ -20,4 +23,16 @@ fun hideKeyboard(activity: Activity) {
             InputMethodManager.HIDE_NOT_ALWAYS
         )
     }
+}
+
+fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, mObserver: Observer<T>) {
+    observe(lifecycleOwner, object : Observer<T> {
+        /**
+         * Called when the data is changed.
+         */
+        override fun onChanged(t: T) {
+            mObserver.onChanged(t)
+            removeObserver(this)
+        }
+    })
 }
