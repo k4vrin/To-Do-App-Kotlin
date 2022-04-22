@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.kavrin.to_doapp.R
 import com.kavrin.to_doapp.data.models.ToDoData
@@ -16,6 +17,7 @@ import com.kavrin.to_doapp.data.viewmodel.ToDoViewModel
 import com.kavrin.to_doapp.databinding.FragmentListBinding
 import com.kavrin.to_doapp.fragments.SharedViewModel
 import com.kavrin.to_doapp.fragments.list.adapter.ListAdapter
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 
 
 class ListFragment : Fragment() {
@@ -65,8 +67,13 @@ class ListFragment : Fragment() {
     private fun setUpRecyclerView() {
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
 
+
+        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+
+
+        recyclerView.itemAnimator = SlideInLeftAnimator()
+        recyclerView.itemAnimator?.changeDuration = 1000L
         // Swipe
         swipeToDelete(recyclerView)
     }
@@ -82,14 +89,14 @@ class ListFragment : Fragment() {
                 // Delete Item
                 mToDoViewModel.deleteData(deletedItem)
                 // Restore deleted data
-                restoreDeletedData(viewHolder.itemView, deletedItem, viewHolder.adapterPosition)
+                restoreDeletedData(viewHolder.itemView, deletedItem)
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-    private fun restoreDeletedData(view: View, deletedItem: ToDoData, position: Int) {
+    private fun restoreDeletedData(view: View, deletedItem: ToDoData) {
         val snackBar = Snackbar.make(
             view,
             "Deleted '${deletedItem.title}'",
