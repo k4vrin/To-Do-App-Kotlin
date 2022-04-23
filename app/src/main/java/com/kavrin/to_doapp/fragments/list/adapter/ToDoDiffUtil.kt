@@ -47,7 +47,8 @@ class ToDoDiffUtil(
      * @return True if the two items represent the same object or false if they are different.
      */
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition] === newList[newItemPosition]
+//        return oldList[oldItemPosition] === newList[newItemPosition] // This equality check cause the whole RecyclerView Update and it's against DiffUtil purpose
+        return oldList[oldItemPosition].id == newList[newItemPosition].id
     }
 
     /**
@@ -71,9 +72,6 @@ class ToDoDiffUtil(
      * @return True if the contents of the items are the same or false if they are different.
      */
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].id == newList[newItemPosition].id
-                && oldList[oldItemPosition].title == newList[newItemPosition].title
-                && oldList[oldItemPosition].description == newList[newItemPosition].description
-                && oldList[oldItemPosition].priority == newList[newItemPosition].priority
+        return oldList[oldItemPosition] == newList[newItemPosition]
     }
 }

@@ -81,7 +81,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         // Setup Animation
         recyclerView.itemAnimator = SlideInUpAnimator().apply {
-            addDuration = 300
+            addDuration = 300L
         }
 
         // Swipe
@@ -98,7 +98,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
                 val deletedItem = adapter.dataList[viewHolder.adapterPosition]
                 // Delete Item
                 mToDoViewModel.deleteData(deletedItem)
-                adapter.notifyItemRemoved(viewHolder.adapterPosition)
+//                adapter.notifyItemRemoved(viewHolder.adapterPosition) // With DiffUtil we don't need this
                 // Restore deleted data
                 restoreDeletedData(viewHolder.itemView, deletedItem)
             }

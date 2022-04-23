@@ -15,7 +15,20 @@ data class ToDoData(
     var title: String,
     var priority: Priority,
     var description: String
-) : Parcelable
+) : Parcelable {
+
+    override fun equals(other: Any?): Boolean {
+        if (javaClass != other?.javaClass) return false
+
+        other as ToDoData
+
+        if (id != other.id) return false
+        if (title != other.title) return false
+        if (priority.name != priority.name) return false
+        if (description != other.description) return false
+        return true
+    }
+}
 
 /**
  * Room is part of android architecture components and it provides an abstraction layer

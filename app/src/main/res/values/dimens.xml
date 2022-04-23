@@ -3,7 +3,6 @@
     <dimen name="no_data_ts">16sp</dimen>
     <dimen name="no_data_iv">100dp</dimen>
     <dimen name="padding">24dp</dimen>
-    <dimen name="FAB_margin">24dp</dimen>
     <dimen name="AF_height">60dp</dimen>
     <dimen name="AF_top_margin">8dp</dimen>
     <dimen name="padding_top">16dp</dimen>
