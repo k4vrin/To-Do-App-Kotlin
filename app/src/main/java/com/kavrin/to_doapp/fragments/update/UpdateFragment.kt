@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.kavrin.to_doapp.R
 import com.kavrin.to_doapp.data.models.ToDoData
 import com.kavrin.to_doapp.data.viewmodel.ToDoViewModel
@@ -46,6 +47,9 @@ class UpdateFragment : Fragment() {
 
         // Change the color of the Spinner Item
         binding.currentPrioritiesSpinner.onItemSelectedListener = mSharedViewModel.listener
+
+        val fab = activity?.findViewById<FloatingActionButton>(R.id.floating_action_button)
+        fab?.hide()
 
         return binding.root
     }

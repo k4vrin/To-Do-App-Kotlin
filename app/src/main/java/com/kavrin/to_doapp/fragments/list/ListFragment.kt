@@ -1,13 +1,18 @@
 package com.kavrin.to_doapp.fragments.list
 
 import android.app.AlertDialog
+import android.graphics.drawable.AnimatedVectorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.kavrin.to_doapp.R
 import com.kavrin.to_doapp.data.models.ToDoData
@@ -21,6 +26,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 
 class ListFragment : Fragment(), SearchView.OnQueryTextListener {
+
 
     // Initialize ToDoViewModel
     private val mToDoViewModel: ToDoViewModel by viewModels()
@@ -56,6 +62,17 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
             // Check if database is empty
             mSharedViewModel.checkIfDatabaseEmpty(data)
             adapter.setData(data)
+        }
+
+        // FAB animation Icon Change
+        val fab = activity?.findViewById<FloatingActionButton>(R.id.floating_action_button)
+        fab?.show()
+        fab?.setOnClickListener {
+            fab.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.add_to_check_anim))
+            val drawable: Drawable = fab.drawable
+            val avd: AnimatedVectorDrawable = drawable as AnimatedVectorDrawable
+            findNavController().navigate(R.id.action_listFragment_to_addFragment)
+            avd.start()
         }
 
         // Set Menu
